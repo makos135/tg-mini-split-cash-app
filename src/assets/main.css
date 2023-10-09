@@ -1,0 +1,56 @@
+@import './base.css';
+@import 'primeicons/primeicons.css';
+@import "primevue/resources/themes/lara-light-indigo/theme.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  font-weight: normal;
+}
+
+html
+{
+  -webkit-tap-highlight-color:transparent;
+}
+
+header {
+  margin-top: -20px;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+.p-toast {
+  top:0 !important;
+  right:0 !important;
+  width: 100% !important;
+  padding: 15px;
+  word-break: break-word;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
+}
