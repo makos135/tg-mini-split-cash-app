@@ -4,13 +4,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --dark:#000
+}
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 1rem;
-
   font-weight: normal;
 }
+
+
 
 html
 {
@@ -19,6 +24,10 @@ html
 
 header {
   margin-top: 0px;
+}
+
+span {
+  color: var(--text-color);
 }
 
 a,
@@ -34,6 +43,17 @@ a,
   width: 100% !important;
   padding: 15px;
   word-break: break-word;
+}
+
+.p-inputwrapper, .p-inputtext {
+  border-top-left-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight,§ .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+  border-color: var(--button-color) !important;
+  background:var(--button-color) !important;;
+  color: var(--text-color) !important;;
 }
 
 @media (hover: hover) {

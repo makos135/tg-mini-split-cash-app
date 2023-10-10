@@ -49,7 +49,7 @@ const goBack = () => {
 
     <header v-if="room">
       <div class="wrapper">
-        <Button class="!w-8 !h-8 !bg-primary !absolute !z-10" icon="pi pi-arrow-left" severity="secondary" rounded aria-label="Go back" @click="goBack"/>
+        <Button class="!w-8 !h-8 !absolute !z-10" icon="pi pi-arrow-left" severity="secondary" rounded aria-label="Go back" @click="goBack"/>
         <AppHeader :msg="room.name"/>
       </div>
       <p class="mt-3">
@@ -61,29 +61,29 @@ const goBack = () => {
       <div class="grid grid-cols-1 w-full justify-center">
 
         <div class="grid grid-cols-12 w-full justify-center">
-          <div class="col-span-11 flex overflow-scroll mr-2">
+          <div class="col-span-10 flex overflow-scroll mr-2">
             <Chip v-for="user in room.users" :label="user.name" icon="pi pi-user" class="m-1"/>
           </div>
-          <div class="col-span-1 flex justify-center items-center">
-            <Button class="!w-8 !h-8 !bg-primary" icon="pi pi-send" severity="secondary" rounded aria-label="Share" @click="shareRoom"/>
+          <div class="col-span-2 flex justify-center items-center">
+            <Button class="!w-8 !h-8" icon="pi pi-send" severity="secondary" rounded aria-label="Share" @click="shareRoom"/>
           </div>
         </div>
 
         <div class="grid grid-cols-12 mt-1">
-          <div class="col-span-5 w-full m-1 flex justify-center">
+          <div class="col-span-5 mr-2 flex justify-center" style="width:90%">
             <NewTransaction :room="room" @created="onNewTransaction"/>
           </div>
-          <div class="col-span-5 w-full m-1 flex justify-center">
+          <div class="col-span-5 mr-2 flex justify-center" style="width:90%">
             <Summary :room="room" @created="onNewTransaction"/>
           </div>
-          <div class="col-span-2 w-full m-1 flex justify-center">
-            <Button icon="pi pi-refresh"  aria-label="Share" @click="loadTransactions"/>
+          <div class="col-span-2 w-full flex justify-center" >
+            <Button icon="pi pi-refresh"  aria-label="Refresh" @click="loadTransactions"/>
           </div>
         </div>
         <div class="w-full h-full flex content-center items-center" style="height: 50vh" v-if="loading">
           <ProgressSpinner/>
         </div>
-        <div v-else class="w-full mt-10">
+        <div v-else class="w-full mt-2">
           <TransactionInfo v-for="transaction in transactions" :key="transaction.id" :transaction="transaction"/>
         </div>
       </div>

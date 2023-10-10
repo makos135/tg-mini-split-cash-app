@@ -37,7 +37,7 @@ const toggle = (event) => {
 
 
 <template>
-  <div class="grid grid-cols-12 w-full mt-4 border border-solid border-white rounded p-3 justify-between">
+  <div class="grid grid-cols-12 w-full mt-1  rounded p-3 justify-between bg-secondary_bg_color">
     <div class="col-span-8">
       <div>
         <span> By: {{ transaction.by_user.name }} </span>

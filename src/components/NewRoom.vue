@@ -40,7 +40,7 @@ let room = {
       <form @submit="onSubmit" class="flex flex-column gap-2 w-full">
         <div class="w-full">
           <div>
-            <span class="p-float-label"> Room name</span>
+            <span class="p-float-label">Room name</span>
             <InputText class="w-full" v-model="room.name" type="text" maxlength="55"/>
           </div>
           <div>

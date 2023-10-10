@@ -38,12 +38,7 @@ const room = props.room;
 }
 
 .p-card {
-  background: #475a4b;
   outline-style:none;
-}
-
-.p-card .p-card-title {
-  color: #ecf6ff;
 }
 
 .p-chip .p-chip-text {

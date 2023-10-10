@@ -27,13 +27,30 @@ const CustomTailwind = usePassThrough(
             },
         },
         button: {
-            root: 'bg-primary border-none justify-center hover:!bg-primary',
-            label: '!flex-none'
+            root: '!bg-button_color !border-none justify-center hover:!bg-button_color',
+            label: '!flex-none !text-button_text_color',
+            icon: '!text-button_text_color'
         },
         dialog: {
-            root: '!w-full m-10',
-            closeButton: '!shadow-[0_0_0_0.2rem_rgba(69,111,73,0.5)]'
+            root: '!w-full m-10 !bg-secondary_bg_color',
+            closeButton: '!shadow-[0_0_0_0.2rem_rgba(var(--button-transparent-color))]',
+            headerTitle: '!text-text_color',
+            header: '!bg-secondary_bg_color',
+            content: '!bg-secondary_bg_color',
+        },
+        chip: {
+            root: '!bg-button_transparent_color',
+            label: '!text-button_text_color',
+            icon: '!text-button_text_color'
+        },
+        card: {
+            root: 'bg-secondary_bg_color',
+            title: '!text-button_text_color',
+        },
+        multiselect: {
+            option: '!text-dark',
         }
+
     },
     {
         mergeSections: true,
