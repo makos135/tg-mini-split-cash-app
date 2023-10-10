@@ -37,6 +37,8 @@ To access data
 
 ```WebApp.CloudStorage.getItem('token', (err, token) => { });```
 
+!!! FOR SOME REASON ON MACOS I DO NOT RECEIVE CALLBACK HERE
+
 getItem method has callback function as second parameter where we can access data (or got error)
 
 When user open application first time application sends information about user to backend, save user information in database and return token for next user authentication. This token is stored in `WebApp.CloudStorage` for latter usage. (This is not the best solution of authentication as token is not refreshed, this should be changed letter).

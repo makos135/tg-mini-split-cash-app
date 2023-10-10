@@ -38,20 +38,31 @@ const fetchToken = () => {
             tryToLinkToRoom();
             resolve();
         }
-        WebApp.CloudStorage.getItem('token', (err, token) => {
-            if (!err && token) {
-                TOKEN = token;
+
+        if(WebApp.platform === 'macos') {
+            initUser().then(json => {
+                TOKEN = json.token;
+                WebApp.CloudStorage.setItem('token', TOKEN);
                 tryToLinkToRoom();
                 resolve();
-            } else {
-                initUser().then(json => {
-                    TOKEN = json.token;
-                    WebApp.CloudStorage.setItem('token', TOKEN);
+            }).catch(reject);
+        }
+        else {
+            WebApp.CloudStorage.getItem('token', (err, token) => {
+                if (!err && token) {
+                    TOKEN = token;
                     tryToLinkToRoom();
                     resolve();
-                }).catch(reject);
-            }
-        });
+                } else {
+                    initUser().then(json => {
+                        TOKEN = json.token;
+                        WebApp.CloudStorage.setItem('token', TOKEN);
+                        tryToLinkToRoom();
+                        resolve();
+                    }).catch(reject);
+                }
+            });
+        }
     })
 }
 
