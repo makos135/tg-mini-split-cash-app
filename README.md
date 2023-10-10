@@ -44,6 +44,23 @@ With each API call we send `X-TOKEN` in headers for user authentication.
 
 To get user information ```WebApp.initDataUnsafe.user``` property.
 
+When user open application with room shared link, it contains `room_id` in `WebApp.initDataUnsafe.start_param`
+So we cant assign user to that room if such parameter exists. (`room_id` is not secure should be used some token for room identification)
+
+```
+const tryToLinkToRoom = () => {
+    const linkToRoom = WebApp.initDataUnsafe.start_param ?? null;
+    if (linkToRoom) {
+        fetch(API_ENDPOINT + '/rooms/link.json', patchHeaders({
+            method: 'POST',
+            body: JSON.stringify({room_id: linkToRoom})
+        })).then(() => store.dispatch('fetchRooms').then(()=>{
+            router.push('/room/' + linkToRoom);
+        }));
+    }
+}
+```
+
 `src/main.js` entry point of application. Here we initialize VueJs application and used components.
 
 `src/Home.vue` is a Main component of application. In this component we use [Vue Router](https://router.vuejs.org/) to easy navigation between application pages. Also in this component we set app css variable according to user Telegram application colors.
