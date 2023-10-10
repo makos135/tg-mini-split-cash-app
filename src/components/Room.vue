@@ -7,6 +7,9 @@ import NewTransaction from "@/components/NewTransaction.vue";
 import TransactionInfo from "@/components/TransactionInfo.vue";
 import Summary from "@/components/Summary.vue";
 import AppHeader from "@/components/AppHeader.vue";
+import Button from "primevue/button";
+import router from "@/routes";
+import ProgressSpinner from "primevue/progressspinner";
 
 const store = useStore()
 const route = useRoute()
@@ -14,11 +17,13 @@ const route = useRoute()
 store.dispatch('fetchRooms')
 const room = computed(() => store.getters.roomById(route.params.id))
 let transactions = ref([]);
+let loading = ref(true);
 
 const loadTransactions = () => {
-  console.log('try to fetch')
+  loading.value = true;
   store.dispatch('fetchTransactions', route.params.id).then(t => {
     transactions.value = t;
+    loading.value = false;
   })
 }
 
@@ -28,17 +33,26 @@ const onNewTransaction = () => {
   loadTransactions();
 }
 
+const shareRoom = () => {
+  window.open('https://t.me/share/url?url='+import.meta.env.VITE_TELEGRAM_MINI_APP_URL+'?startapp=' + room.value.id);
+}
+
+const goBack = () => {
+  console.log('go back')
+  router.push('/');
+}
 
 </script>
 
 <template>
   <div>
 
-    <header>
+    <header v-if="room">
       <div class="wrapper">
-        <AppHeader :msg="room.name" />
+        <Button class="!w-8 !h-8 !bg-primary !absolute !z-10" icon="pi pi-arrow-left" severity="secondary" rounded aria-label="Go back" @click="goBack"/>
+        <AppHeader :msg="room.name"/>
       </div>
-      <p>
+      <p class="mt-3">
         {{ room.description }}
       </p>
     </header>
@@ -46,19 +60,30 @@ const onNewTransaction = () => {
     <div class="members mt-2" v-if="room">
       <div class="grid grid-cols-1 w-full justify-center">
 
-        <div class="flex overflow-scroll">
-          <Chip v-for="user in room.users" :label="user.name" icon="pi pi-user" class="m-1"/>
+        <div class="grid grid-cols-12 w-full justify-center">
+          <div class="col-span-11 flex overflow-scroll mr-2">
+            <Chip v-for="user in room.users" :label="user.name" icon="pi pi-user" class="m-1"/>
+          </div>
+          <div class="col-span-1 flex justify-center items-center">
+            <Button class="!w-8 !h-8 !bg-primary" icon="pi pi-send" severity="secondary" rounded aria-label="Share" @click="shareRoom"/>
+          </div>
         </div>
 
-        <div class="grid grid-cols-2">
-          <div class="w-full m-1 flex justify-center">
+        <div class="grid grid-cols-12 mt-1">
+          <div class="col-span-5 w-full m-1 flex justify-center">
             <NewTransaction :room="room" @created="onNewTransaction"/>
           </div>
-          <div class="w-full m-1 flex justify-center">
+          <div class="col-span-5 w-full m-1 flex justify-center">
             <Summary :room="room" @created="onNewTransaction"/>
           </div>
+          <div class="col-span-2 w-full m-1 flex justify-center">
+            <Button icon="pi pi-refresh"  aria-label="Share" @click="loadTransactions"/>
+          </div>
         </div>
-        <div class="w-full mt-10">
+        <div class="w-full h-full flex content-center items-center" style="height: 50vh" v-if="loading">
+          <ProgressSpinner/>
+        </div>
+        <div v-else class="w-full mt-10">
           <TransactionInfo v-for="transaction in transactions" :key="transaction.id" :transaction="transaction"/>
         </div>
       </div>

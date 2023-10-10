@@ -53,7 +53,7 @@ const onSubmit = handleSubmit((values) => {
 
 <template>
   <div>
-    <Button class="m-1" label="New split" icon="pi pi-plus-circle" @click="dialogVisible = true"/>
+    <Button label="New split" icon="pi pi-plus-circle" @click="dialogVisible = true"/>
 
     <Dialog v-model:visible="dialogVisible" modal header="New payment">
       <form @submit="onSubmit" class="flex flex-column gap-2">
@@ -64,11 +64,14 @@ const onSubmit = handleSubmit((values) => {
                       placeholder="Select who pay" class="w-full md:w-14rem"/>
 
           </div>
-          <span class="p-float-label-content">Amount</span>
-          <div class="p-inputgroup">
-            <InputText v-model="transaction.full_price" placeholder="Description"
-                       @change="onChange($event)"/>
-            <span class="p-inputgroup-addon">{{room.currency}}</span>
+
+          <div class="mt-3">
+            <span class="p-float-label-content !mt-0">Amount</span>
+            <div class="p-inputgroup !mt-0">
+              <InputNumber class="w-full" v-model="transaction.full_price" placeholder="Description"
+                           @change="onChange($event)"/>
+              <span class="p-inputgroup-addon">{{ room.currency }}</span>
+            </div>
           </div>
           <div class="p-inputgroup flex-col">
             <span class="p-float-label-content">For users</span>
@@ -87,7 +90,7 @@ const onSubmit = handleSubmit((values) => {
             <InputText v-model="transaction.description" type="text"/>
           </div>
 
-          <Button type="submit" label="Create"/>
+          <Button class="w-full !mt-5" type="submit" label="Create"/>
         </div>
       </form>
     </Dialog>
@@ -95,8 +98,8 @@ const onSubmit = handleSubmit((values) => {
 </template>
 
 <style scoped>
-button, .p-inputgroup {
-margin-top: 10px;
+.p-inputgroup {
+  margin-top: 10px;
 }
 
 .p-dropdown, .p-multiselect, .p-inputtext {

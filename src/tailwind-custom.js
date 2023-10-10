@@ -27,11 +27,11 @@ const CustomTailwind = usePassThrough(
             },
         },
         button: {
-            root: 'bg-primary border-none justify-center',
+            root: 'bg-primary border-none justify-center hover:!bg-primary',
             label: '!flex-none'
         },
         dialog: {
-            root: '',
+            root: '!w-full m-10',
             closeButton: '!shadow-[0_0_0_0.2rem_rgba(69,111,73,0.5)]'
         }
     },

@@ -1,27 +1,52 @@
 import {createStore} from "vuex";
 import WebApp from '@twa-dev/sdk'
+import router from "@/routes";
 
 WebApp.ready();
 
-const API_ENDPOINT = 'https://3e016db81c21.ngrok.app';
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
 console.log(WebApp)
 
 let TOKEN = '';
+
+// WebApp.CloudStorage.removeItem('token');
+const patchHeaders = options => {
+    options.headers = {
+        'Content-Type': 'application/json',
+        'X-TOKEN': TOKEN
+    };
+    return options;
+}
+
+const tryToLinkToRoom = () => {
+    const linkToRoom = WebApp.initDataUnsafe.start_param ?? null;
+    if (linkToRoom) {
+        fetch(API_ENDPOINT + '/rooms/link.json', patchHeaders({
+            method: 'POST',
+            body: JSON.stringify({room_id: linkToRoom})
+        })).then(() => store.dispatch('fetchRooms').then(()=>{
+            router.push('/room/' + linkToRoom);
+        }));
+    }
+}
 
 const fetchToken = () => {
     return new Promise((resolve, reject) => {
         if (!WebApp.initDataUnsafe.user) {
             TOKEN = 123;
+            tryToLinkToRoom();
             resolve();
         }
         WebApp.CloudStorage.getItem('token', (err, token) => {
             if (!err && token) {
                 TOKEN = token;
+                tryToLinkToRoom();
                 resolve();
             } else {
                 initUser().then(json => {
                     TOKEN = json.token;
                     WebApp.CloudStorage.setItem('token', TOKEN);
+                    tryToLinkToRoom();
                     resolve();
                 }).catch(reject);
             }
@@ -42,24 +67,15 @@ const initUser = () => {
             })
         }).then(response => response.json()).then(json => {
             //commit('setRooms', json);
+
             resolve(json);
         }).catch(reject);
     })
 }
 
-await fetchToken();
-console.log(TOKEN);
+fetchToken();
 
-
-const patchHeaders = options => {
-    options.headers = {
-        'Content-Type': 'application/json',
-        'X-TOKEN': TOKEN
-    };
-    return options;
-}
-
-const store = createStore({
+let store = createStore({
     state() {
         return {
             rooms: [],
@@ -84,9 +100,12 @@ const store = createStore({
     },
     actions: {
         fetchRooms: ({commit}) => {
-            fetch(API_ENDPOINT + '/rooms/all.json', patchHeaders({})).then(response => response.json()).then(json => {
-                commit('updateRooms', json);
-            })
+            return new Promise((res, rej) => {
+                fetch(API_ENDPOINT + '/rooms/all.json', patchHeaders({})).then(response => response.json()).then(json => {
+                    commit('updateRooms', json);
+                    res();
+                }).catch(rej);
+            });
         },
         createRoom: ({commit}, room) => {
             return new Promise((res, rej) => {
@@ -143,11 +162,4 @@ const store = createStore({
     }
 });
 
-const linkToRoom = WebApp.initDataUnsafe.start_param ?? 3;
-if (linkToRoom) {
-    fetch(API_ENDPOINT + '/rooms/link.json', patchHeaders({
-        method: 'POST',
-        body: JSON.stringify({room_id: linkToRoom})
-    })).then(() => store.dispatch('fetchRooms'));
-}
 export default store;

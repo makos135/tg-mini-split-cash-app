@@ -25,7 +25,7 @@ const showDialog = () => {
   <div>
     <Button class="" label="Summary" icon="pi pi-info-circle" @click="showDialog"/>
 
-    <Dialog v-model:visible="dialogVisible" modal header="Summary" class="w-full">
+    <Dialog v-model:visible="dialogVisible" modal header="Summary" class="!w-full">
       <div v-for="(summary, k) in summaries" :key="k" class="w-full">
         <div class="grid grid-cols-12 w-full mt-4 border border-solid border-white rounded p-3">
           <div class="col-span-10">
@@ -48,8 +48,7 @@ const showDialog = () => {
 </template>
 
 <style scoped>
-
-button, span {
+ span {
   margin-top: 10px;
 }
 
