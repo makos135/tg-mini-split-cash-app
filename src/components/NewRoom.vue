@@ -30,7 +30,6 @@ let room = {
 }
 </script>
 
-
 <template>
   <div>
     <Toast/>

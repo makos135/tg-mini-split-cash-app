@@ -45,7 +45,6 @@ const room = props.room;
   font-size: 0.75rem;
 }
 
-
 .members {
   display: flex;
   overflow: scroll;

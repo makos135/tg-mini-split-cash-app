@@ -6,16 +6,6 @@ import {computed, ref} from "vue";
 import AppHeader from "@/components/AppHeader.vue";
 import ProgressSpinner from "primevue/progressspinner";
 import Button from "primevue/button";
-import Chip from "primevue/chip";
-
-
-function validateRoomName(value) {
-  if (!value) {
-    return 'Name - Surname is required.';
-  }
-
-  return true;
-}
 
 const store = useStore()
 let loading = ref(true);

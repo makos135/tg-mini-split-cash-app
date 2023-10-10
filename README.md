@@ -20,6 +20,8 @@ Mini app created using [Vue.js](https://vuejs.org/) as frontend framework and [C
 ### Description
 
 This documentation contains general information about developing Telegram Mini App using VueJs and PrimeVue. Without diving into application logic.
+This project show how to interact with some of [twa-dev/SDK](https://github.com/twa-dev/SDK) properties like user information, Telegram client theme colors, saving and accessing data in CloudStorage.
+For easy testing there are defined some variables that are used if we do not used telegram client to launch mini app!.
 
 ### General
 To work with telegram api used [twa-dev/SDK](https://github.com/twa-dev/SDK). It allows to easy access to Telegram properties such as user information, user color palette and to interact with native Telegram application.
@@ -27,8 +29,20 @@ To work with telegram api used [twa-dev/SDK](https://github.com/twa-dev/SDK). It
 twa-dev/SDK gives access to `WebApp` object which is stored in [Vuex](https://vuex.vuejs.org/) store `src/store/store.js`, to easy access to object in components.
 `src/store/store.js` also implements API communication with backend.
 
+To save data in CloudStorage:
+
+```WebApp.CloudStorage.setItem('token', TOKEN);```
+
+To access data 
+
+```WebApp.CloudStorage.getItem('token', (err, token) => { });```
+
+getItem method has callback function as second parameter where we can access data (or got error)
+
 When user open application first time application sends information about user to backend, save user information in database and return token for next user authentication. This token is stored in `WebApp.CloudStorage` for latter usage. (This is not the best solution of authentication as token is not refreshed, this should be changed letter).
 With each API call we send `X-TOKEN` in headers for user authentication.
+
+To get user information ```WebApp.initDataUnsafe.user``` property.
 
 `src/main.js` entry point of application. Here we initialize VueJs application and used components.
 

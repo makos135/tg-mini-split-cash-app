@@ -1,5 +1,3 @@
-import {TRANSITIONS} from "primevue/passthrough/tailwind";
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [

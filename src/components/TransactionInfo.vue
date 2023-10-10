@@ -32,9 +32,7 @@ const speedDialItems = ref([
 const toggle = (event) => {
   menu.value.toggle(event);
 };
-
 </script>
-
 
 <template>
   <div class="grid grid-cols-12 w-full mt-1  rounded p-3 justify-between bg-secondary_bg_color">

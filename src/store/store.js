@@ -9,7 +9,7 @@ console.log(WebApp)
 
 let TOKEN = '';
 
-// WebApp.CloudStorage.removeItem('token');
+//WebApp.CloudStorage.removeItem('token');
 const patchHeaders = options => {
     options.headers = {
         'Content-Type': 'application/json',
@@ -99,7 +99,11 @@ let store = createStore({
         },
     },
     actions: {
-        fetchRooms: ({commit}) => {
+        fetchRooms: async ({commit}) => {
+            while(!TOKEN) {
+                console.log('waiting for token...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
             return new Promise((res, rej) => {
                 fetch(API_ENDPOINT + '/rooms/all.json', patchHeaders({})).then(response => response.json()).then(json => {
                     commit('updateRooms', json);
@@ -158,7 +162,6 @@ let store = createStore({
                 });
             })
         },
-
     }
 });
 
