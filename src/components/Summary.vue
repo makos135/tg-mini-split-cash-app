@@ -43,6 +43,9 @@ const showDialog = () => {
           </div>
         </div>
       </div>
+      <div v-if="summaries.length===0">
+        <span>You do not have transactions yet!</span>
+      </div>
     </Dialog>
   </div>
 </template>

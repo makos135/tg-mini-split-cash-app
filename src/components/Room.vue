@@ -38,7 +38,6 @@ const shareRoom = () => {
 }
 
 const goBack = () => {
-  console.log('go back')
   router.push('/');
 }
 
@@ -69,7 +68,7 @@ const goBack = () => {
           </div>
         </div>
 
-        <div class="grid grid-cols-12 mt-1">
+        <div class="grid grid-cols-12 mt-2">
           <div class="col-span-5 mr-2 flex justify-center" style="width:90%">
             <NewTransaction :room="room" @created="onNewTransaction"/>
           </div>
@@ -84,7 +83,10 @@ const goBack = () => {
           <ProgressSpinner/>
         </div>
         <div v-else class="w-full mt-2">
-          <TransactionInfo v-for="transaction in transactions" :key="transaction.id" :transaction="transaction"/>
+          <TransactionInfo v-for="transaction in transactions" :key="transaction.id" :transaction="transaction" @onDeleted="loadTransactions"/>
+          <div v-if="transactions.length===0" class="mt-5 h-full text-center">
+            <span>You dont have transactions yet. Create new Split. Here you will see your transactions.</span>
+          </div>
         </div>
       </div>
     </div>

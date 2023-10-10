@@ -5,21 +5,23 @@ import Dialog from "primevue/dialog";
 import InputText from "primevue/inputtext";
 import {useField, useForm} from 'vee-validate';
 import {useStore} from 'vuex'
-import {useToast} from "primevue/usetoast";
 import Toast from "primevue/toast";
+import {useRouter} from "vue-router";
+import ProgressSpinner from "primevue/progressspinner";
 
 const dialogVisible = ref(false);
 const {handleSubmit, resetForm} = useForm();
 
 const store = useStore();
+const router = useRouter();
 
-const toastObject = useToast();
-
+let loading = ref(false);
 const onSubmit = handleSubmit((values) => {
-  dialogVisible.value = false;
-  store.dispatch('createRoom', room).then(() => {
-    toastObject.add({severity: 'success', summary: room.name, detail: 'Room has been created', life: 3000});
-
+  loading.value = true;
+  store.dispatch('createRoom', room).then((r) => {
+    loading.value = false;
+    dialogVisible.value = false;
+    router.push('/room/' + r.id)
   });
 })
 
@@ -36,25 +38,30 @@ let room = {
     <Button class="w-full" label="Create room" icon="pi pi-plus" @click="dialogVisible = true"/>
 
     <Dialog v-model:visible="dialogVisible" modal header="New room">
-      <form @submit="onSubmit" class="flex flex-column gap-2 w-full">
-        <div class="w-full">
-          <div>
-            <span class="p-float-label">Room name</span>
-            <InputText class="w-full" v-model="room.name" type="text" maxlength="55"/>
+      <div class="w-full h-full flex content-center items-center" style="height: 50vh" v-if="loading">
+        <ProgressSpinner/>
+      </div>
+      <div v-else>
+        <form @submit="onSubmit" class="flex flex-column gap-2 w-full">
+          <div class="w-full">
+            <div>
+              <span class="p-float-label">Room name</span>
+              <InputText class="w-full" v-model="room.name" type="text" maxlength="55"/>
+            </div>
+            <div>
+              <span class="p-float-label">Currency</span>
+              <InputText class="w-full" v-model="room.currency" type="text" maxlength="3"/>
+            </div>
+            <div>
+              <span class="p-float-label"> Description</span>
+              <InputText class="w-full" v-model="room.description" type="text" label="Description" maxlength="255"/>
+            </div>
+            <div class="mt-5">
+              <Button class="w-full" type="submit" label="Create"/>
+            </div>
           </div>
-          <div>
-            <span class="p-float-label">Currency</span>
-            <InputText class="w-full" v-model="room.currency" type="text" maxlength="3"/>
-          </div>
-          <div>
-            <span class="p-float-label"> Description</span>
-            <InputText class="w-full" v-model="room.description" type="text" label="Description" maxlength="255"/>
-          </div>
-          <div class="mt-5">
-            <Button class="w-full" type="submit" label="Create"/>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </Dialog>
   </div>
 </template>

@@ -5,11 +5,12 @@ import router from "@/routes";
 WebApp.ready();
 
 const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
-console.log(WebApp)
 
 let TOKEN = '';
 
-WebApp.CloudStorage.removeItem('token');
+if(WebApp.initDataUnsafe.user) {
+    WebApp.CloudStorage.removeItem('token');
+}
 const patchHeaders = options => {
     options.headers = {
         'Content-Type': 'application/json',
@@ -101,7 +102,6 @@ let store = createStore({
     actions: {
         fetchRooms: async ({commit}) => {
             while(!TOKEN) {
-                console.log('waiting for token...');
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
             return new Promise((res, rej) => {

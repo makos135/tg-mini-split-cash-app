@@ -21,7 +21,6 @@ const setColors = (themeParams) => {
   document.documentElement.style.setProperty('--button-color', themeParams.button_color);
   document.documentElement.style.setProperty('--button-text-color', themeParams.button_text_color);
   document.documentElement.style.setProperty('--button-transparent-color', themeParams.button_color + '7a');
-  console.log(colors);
 }
 
 setColors(store.state.telegramApi.initDataUnsafe.user ?store.state.telegramApi.themeParams : colors);

@@ -10,12 +10,10 @@ import Button from "primevue/button";
 const store = useStore()
 let loading = ref(true);
 store.dispatch('fetchRooms').then(() => {
-  console.log('loaded');
   loading.value = false;
 });
 const rooms = computed(() => store.state.rooms);
 const refresh = () => {
-  console.log('refresh');
   loading.value = true;
   store.dispatch('fetchRooms').then(() => {
     loading.value = false;
