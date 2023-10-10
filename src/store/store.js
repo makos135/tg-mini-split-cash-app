@@ -9,7 +9,7 @@ console.log(WebApp)
 
 let TOKEN = '';
 
-//WebApp.CloudStorage.removeItem('token');
+WebApp.CloudStorage.removeItem('token');
 const patchHeaders = options => {
     options.headers = {
         'Content-Type': 'application/json',
